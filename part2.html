@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Round 1- Part 2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: lavender;
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        header {
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 3em;
+            /* Larger font size for more impact */
+            color: #6a1b4d;
+            /* Slightly adjusted color for better contrast */
+            font-family: 'Arial', sans-serif;
+            /* Choose a clean, modern font */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            /* Subtle shadow for depth */
+            letter-spacing: -0.5px;
+            /* Slightly tighter letter spacing for a refined look */
+        }
+
+        h3{
+            margin: 20px 0;
+            /* Increased margin for better separation */
+            font-size: 2.5em;
+            /* Slightly larger font size for better hierarchy */
+            color: #4a6a24;
+            /* Adjusted color for a fresher look */
+            font-family: 'Arial', sans-serif;
+            /* Consistent font choice */
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+            /* Subtle shadow for a softer effect */
+            letter-spacing: -0.3px;
+            /* Slightly tighter letter spacing */
+        }
+
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-template-rows: repeat(7, 1fr);
+            grid-gap: 10px;
+            margin-top: 20px;
+        }
+
+        .category-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #1a1a1a;
+            text-align: center;
+            background: linear-gradient(145deg, #b5754e, #9b5f3e);
+            padding: 10px;
+            border-radius: 12px;
+            box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+            grid-column: span 1;
+            grid-row: span 1;
+            box-sizing: border-box;
+        }
+
+        .cell {
+            background: linear-gradient(145deg, #6f0b63, #4a0052);
+            color: #e0e0e0;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            position: relative;
+            box-sizing: border-box;
+            padding: 10px;
+            height: 100%;
+            width: 100%;
+        }
+
+        .cell:hover {
+            background: linear-gradient(145deg, #26104f, #170d3c);
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .cell.revealed {
+            background: #333;
+            color: #666;
+            text-decoration: line-through;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: lavender;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 600px;
+            color: black;
+            font-size: 1em;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .options {
+            margin: 20px 0;
+        }
+
+        .option-button,
+        .close-button {
+            padding: 10px 20px;
+            margin: 5px;
+            background: linear-gradient(145deg, #00ff7f, #00cc66);
+            color: #1a1a1a;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        .option-button:hover,
+        .close-button:hover {
+            background: linear-gradient(145deg, #33ff99, #00cc66);
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .option-button:active,
+        .close-button:active {
+            background: linear-gradient(145deg, #00cc66, #00994d);
+            transform: scale(0.98);
+        }
+
+        .timer {
+            font-size: 1.5em;
+            color: #ff4747;
+            margin-top: 10px;
+        }
+
+        .result-popup {
+            background-color: #1a1a1a;
+            color: #00ff7f;
+        }
+
+        .footer {
+            padding: 20px;
+            text-align: center;
+            color: #e0e0e0;
+            border-top: 2px solid #00ff7f;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+        }
+
+        .round-button {
+            padding: 10px 20px;
+            background: linear-gradient(145deg, #00ff7f, #00cc66);
+            color: #1a1a1a;
+            text-decoration: none;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        .round-button:hover {
+            background: linear-gradient(145deg, #33ff99, #00cc66);
+        }
+
+        .round-button:active {
+            background: linear-gradient(145deg, #00cc66, #00994d);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h2>NexTech: The Ultimate Electronics Challenge!</h2>
+            <h3>Round 1- Part 2</h3>
+        </header>
+
+        <div id="grid" class="grid"></div>
+
+        <div id="question-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <h2 id="question-title">Question</h2>
+                <p id="question-text"></p>
+                <div id="options" class="options"></div>
+                <div id="timer" class="timer"></div>
+                <button id="close-question" class="close-button">Close</button>
+            </div>
+        </div>
+
+        <div id="result-popup" class="modal result-popup" style="display: none;">
+            <div class="modal-content">
+                <h2 id="result-message"></h2>
+                <button id="next" class="close-button">Next</button>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <a href="round2.html" class="round-button">Round 2</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const categories = ["Basic Electronics", "Current Affairs", "Programming", "Technology", "General Science", "General knowledge"];
+        const clues = [
+            [
+                { value: "Which theorem states that any linear electrical network with voltage and current sources can be replaced by an equivalent voltage source and a series resistor?", options: ["Norton's Theorem", "Superposition Theorem", "Thevenin's Theorem", "Millman's Theorem"], correct: 2, points: 4 },
+                { value: "As per the data recently released by ISRO, what is the highest temperature recorded on the lunar surface in the Chandrayaan mission?", options: ["20 degree centigrade", "40 degree centigrade", "50 degree centigrade", "70 degree centigrade"], correct: 3, points: 4 },
+                { value: "In C++, which design pattern involves defining a family of algorithms, encapsulating each one, and making them interchangeable?", options: ["Command Pattern", "Strategy Pattern", "Adapter Pattern", "Decorator Pattern"], correct: 1, points: 4 },
+                {
+                    value: "Which cryptographic protocol is known for enabling secure communication over an insecure network, and is widely used in blockchain technology?",
+                    options: ["RSA", "Diffie-Hellman", "Elliptic Curve Cryptography (ECC)", "SHA-256"],
+                    correct: 2, // Elliptic Curve Cryptography (ECC)
+                    points: 4
+                },
+                {
+                    value: "Which principle explains why a plane can fly, based on the differences in pressure above and below the wings?",
+                    options: ["Bernoulli’s Principle", "Archimedes’ Principle", "Newton’s Third Law", "Pascal’s Law"],
+                    correct: 0, // Bernoulli’s Principle
+                    points: 4
+                },
+                {
+                    value: "Which ancient city is known as the 'Lost City of the Incas'?",
+                    options: ["Petra", "Machu Picchu", "Angkor Wat", "Pompe"],
+                    correct: 1, // Machu Picchu
+                    points: 4
+                }
+            ],
+            [
+                { value: "In a BJT (Bipolar Junction Transistor), which region is the narrowest, and why is it designed this way?", options: ["Emitter, to inject more carriers", "Base, to allow recombination of electrons and holes", "Collector, to collect the majority carriers", "Base, to reduce recombination and increase current gain"], correct: 3, points: 8 },
+                { value: "Which company has developed ‘Just Walk Out’ a cashier-less shopping technology?", options: ["Apple", "Amazon", "Walmart", "eBay"], correct: 1, points: 8 },
+                { value: "Which algorithm is used to detect cycles in a graph?", options: ["Dijkstra’s Algorithm", "Bellman-Ford Algorithm", "Floyd-Warshall Algorithm", "Tarjan’s Algorithm"], correct: 3, points: 8 },
+                {
+                    value: "Which type of machine learning algorithm is used to model complex relationships between inputs and outputs when the data is non-linear?",
+                    options: ["Linear Regression", "Support Vector Machine (SVM)", "K-Nearest Neighbors (KNN)", "Artificial Neural Networks (ANN)"],
+                    correct: 3, // Artificial Neural Networks (ANN)
+                    points: 8
+                },
+                {
+                    value: "Which among the following was the first vaccine ever to be developed?",
+                    options: ["Cholera", "Smallpox", "Rabies", "Tetanus"],
+                    correct: 1, // Smallpox
+                    points: 8
+                },
+                {
+                    value: "Prince of Wales Cup is related to which of the following sports?",
+                    options: ["Boxing", "Golf", "Hockey", "Tennis"],
+                    correct: 1, // Golf
+                    points: 8
+                }
+            ],
+            [
+                { value: "Which component exhibits a negative resistance region in its I-V characteristics?", options: ["Zener Diode", "Tunnel Diode", "Schottky Diode", "Varactor Diode"], correct: 1, points: 12 },
+                { value: "AstroSat is a space telescope launched by which country?", options: ["USA", "Russia", "India", "China"], correct: 2, points: 12 },
+                { value: "What is the purpose of the volatile keyword in Java?", options: ["It ensures that changes to a variable are always visible to all threads", "It prevents a variable from being optimized by the compiler", "It makes a variable immutable", "It forces a variable to be stored in the main memory"], correct: 0, points: 12 },
+                {
+                    value: "In the context of cloud computing, what does 'serverless' mean?",
+                    options: ["No physical servers are involved in the cloud infrastructure", "The user does not need to manage the server", "The system runs without any backend processing", "The service is offered at no cost"],
+                    correct: 1, // The user does not need to manage the server
+                    points: 12
+                },
+                {
+                    value: "In astrophysics, what is the Chandrasekhar limit?",
+                    options: [
+                        "The maximum mass of a white dwarf star beyond which it collapses into a neutron star or black hole",
+                        "The minimum temperature required for nuclear fusion to occur in a star’s core",
+                        "The speed at which a star's core must rotate to avoid collapse",
+                        "The distance from a star at which a planet's orbit is stable"
+                    ],
+                    correct: 0, // The maximum mass of a white dwarf star beyond which it collapses into a neutron star or black hole
+                    points: 12
+                },
+                {
+                    value: "Which among the following tournaments is also known as World Team Championships for Women?",
+                    options: ["Thomas Cup", "Uber Cup", "Helvetia Cup", "Spanish Open Badminton"],
+                    correct: 1, // Uber Cup
+                    points: 12
+                }
+            ],
+            [
+                { value: "What is the primary difference between a MOSFET and a JFET?", options: ["MOSFETs are voltage-controlled, JFETs are current-controlled", "JFETs are depletion-type devices, MOSFETs can be both depletion and enhancement types", "MOSFETs have a higher input impedance than JFETs", "JFETs are faster than MOSFETs"], correct: 1, points: 16 },
+                { value: "What is the full form of GAGAN, the satellite-based augmentation system by DRDO?", options: ["Geospatial Analysis and Geotagging Access Node", "Gyroscopic Aviation Guidance and Navigation", "Graphical Atmosphere Grid and Analysis Nexus", "GPS Aided GEO Augmented Navigation"], correct: 3, points: 16 },
+                {
+                    value: "Which of the following is a strongly-typed functional programming language?",
+                    options: ["Haskell", "Python", "Ruby", "Perl"],
+                    correct: 0, points: 16
+                },
+                {
+                    value: "What is the main advantage of using a quantum computer over a classical computer?",
+                    options: ["Ability to perform faster calculations on all types of problems", "Increased security in data encryption", "Solving problems with exponential complexity in polynomial time", "More energy-efficient processing"],
+                    correct: 2, // Solving problems with exponential complexity in polynomial time
+                    points: 16
+                },
+                {
+                    value: "Knot is a unit of ________?",
+                    options: ["Speed", "Distance", "Depth", "Acceleration"],
+                    correct: 0, // Speed
+                    points: 16
+                },
+                {
+                    value: "What was the name of the ship that carried the Pilgrims to America in 1620?",
+                    options: ["Santa Maria", "Mayflower", "Pinta", "Beagle"],
+                    correct: 1, // Mayflower
+                    points: 16
+                }
+            ],
+            [
+                { value: "In a Wheatstone bridge, what condition must be met for the bridge to be balanced?", options: ["The sum of the resistances in one diagonal must equal the sum in the other", "The product of the resistances in one diagonal must equal the product in the other", "The voltage across the bridge must be zero", "The current through the bridge must be zero"], correct: 1, points: 20 },
+                { value: "TEMPO (Tropospheric Emissions: Monitoring of Pollution sensor) satellite has been launched by?", options: ["ISRO", "JAXA", "NASA", "ROSCOSMOS"], correct: 2, points: 20 },
+                {
+                    value: "What is the time complexity of finding the shortest path in a weighted graph using Dijkstra’s algorithm implemented with a priority queue?",
+                    options: ["O(V^2)", "O(V log V + E log V)", "O(V^2 log V)", "O(V + E log E)"],
+                    correct: 1, points: 20
+                },
+                {
+                    value: "Which of the following technologies is considered foundational for developing augmented reality (AR) experiences?",
+                    options: ["LIDAR", "RADAR", "Blockchain", "DNS"],
+                    correct: 0, // LIDAR
+                    points: 20
+                },
+                {
+                    value: "Which particle is considered the carrier of the weak nuclear force?",
+                    options: ["Photon", "Gluon", "W and Z bosons", "Higgs boson"],
+                    correct: 2, // W and Z bosons
+                    points: 20
+                },
+                {
+                    value: "The terms 'Technical foul' and 'Flagrant Foul' are most commonly associated with which of the following sports?",
+                    options: ["Table Tennis", "Badminton", "Basketball", "Football"],
+                    correct: 2, // Basketball
+                    points: 20
+                }
+            ],
+            [
+                { value: "What type of filter is characterized by having a frequency response that decreases with increasing frequency, and can be implemented using RC or RL circuits?", options: ["Band-pass filter", "High-pass filter", "Low-pass filter", "Notch filter"], correct: 2, points: 24 },
+                { value: "High Powered Microwave (HPM) Weapons, which was seen in the news, is unveiled by which country?", options: ["China", "Russia", "India", "Israel"], correct: 0, points: 24 },
+                {
+                    value: "The symbol that represents comments in a flowchart is",
+                    options: ["A procedure symbol", "An annotation symbol", "A flow line", "A subroutine"],
+                    correct: 1, points: 24
+                },
+                {
+                    value: "The world’s first hundred percent Ethanol fuelled Car has been developed by which company?",
+                    options: ["Maruti Suzuki", "Toyota", "Mahindra and Mahindra", "Tata Motors"],
+                    correct: 1, // Toyota
+                    points: 24
+                },
+                {
+                    value: "The minimum speed required to put a satellite into a given orbit around earth is known as:",
+                    options: ["Escape velocity", "Orbital velocity", "Kinetic velocity", "None of the above"],
+                    correct: 1, // Orbital velocity
+                    points: 24
+                },
+                {
+                    value: "The name of Professor Guru Dutt Sondhi is known behind the foundation of which among the following?",
+                    options: ["Olympic Association of India", "Asian Games Federation", "Indian Premier League", "Indian Badminton League"],
+                    correct: 1, // Asian Games Federation
+                    points: 24
+                }
+            ]
+        ];
+
+
+        let timerInterval;
+        let currentCell;
+
+        function createCategoryTitles() {
+            const grid = document.getElementById("grid");
+            categories.forEach(category => {
+                const title = document.createElement("div");
+                title.className = "category-title";
+                title.innerText = category;
+                grid.appendChild(title);
+            });
+        }
+
+        function createGrid() {
+            const grid = document.getElementById("grid");
+            clues.forEach((row, rowIndex) => {
+                row.forEach((clue, colIndex) => {
+                    const cell = document.createElement("div");
+                    cell.className = "cell";
+                    cell.innerText = clue.points;
+                    cell.onclick = () => showQuestion(rowIndex, colIndex);
+                    grid.appendChild(cell);
+                });
+            });
+        }
+
+        function showQuestion(rowIndex, colIndex) {
+            const clue = clues[rowIndex][colIndex];
+            if (clue.revealed) return;
+
+            currentCell = document.querySelectorAll(".cell")[rowIndex * 6 + colIndex];
+
+            document.getElementById("question-title").innerText = "Question for " + clue.points + " Points";
+            document.getElementById("question-text").innerText = clue.value;
+
+            const optionsContainer = document.getElementById("options");
+            optionsContainer.innerHTML = "";
+            clue.options.forEach((option, index) => {
+                const button = document.createElement("button");
+                button.className = "option-button";
+                button.innerText = option;
+                button.onclick = () => checkAnswer(rowIndex, colIndex, index);
+                optionsContainer.appendChild(button);
+            });
+
+            startTimer();
+            document.getElementById("question-modal").style.display = "flex";
+            document.getElementById("close-question").style.display = "block";
+        }
+
+        function checkAnswer(rowIndex, colIndex, selected) {
+            clearInterval(timerInterval);
+
+            const clue = clues[rowIndex][colIndex];
+            const resultMessage = document.getElementById("result-message");
+
+            if (selected === clue.correct) {
+                resultMessage.innerText = "Correct!";
+            } else {
+                resultMessage.innerText = "Incorrect!";
+            }
+
+            clue.revealed = true;
+            currentCell.classList.add("revealed");
+            document.getElementById("question-modal").style.display = "none";
+            document.getElementById("result-popup").style.display = "flex";
+        }
+
+        function startTimer() {
+            let timeLeft = 45;
+            const timerElement = document.getElementById("timer");
+            timerElement.innerText = "Time left: " + timeLeft + "s";
+
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerElement.innerText = "Time left: " + timeLeft + "s";
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timerElement.innerText = "Time's up!";
+                    document.getElementById("close-question").style.display = "block";
+                }
+            }, 1000);
+        }
+
+        document.getElementById("close-question").onclick = function () {
+            document.getElementById("question-modal").style.display = "none";
+            clearInterval(timerInterval);
+
+            if (currentCell) {
+                currentCell.classList.add("revealed");
+            }
+        };
+
+        document.getElementById("next").onclick = function () {
+            document.getElementById("result-popup").style.display = "none";
+        };
+
+        createCategoryTitles();
+        createGrid();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexTech: Round 1</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('p2.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #ffffff;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            text-align: center;
+            color: red;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); /* Enhanced shadow for readability */
+        }
+
+        #jeo {
+            font-weight: 900;
+            font-size: 2.5em;
+            text-align: center;
+            color: #ffd700; /* Gold color for contrast */
+            margin-bottom: 40px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); /* Enhanced shadow for readability */
+            overflow: hidden;
+            border-right: 0.15em solid #ffd700;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: 0.15em;
+            visibility: hidden;
+            animation: typing 3.5s steps(30, end), blink-caret 0.75s step-end infinite, fadeIn 0.5s ease-in-out forwards;
+            animation-delay: 1s;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #ffd700; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); visibility: visible; }
+        }
+
+        p {
+            font-size: 1.5em;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 20px 60px;
+            line-height: 1.6;
+            color: #ffffff; /* White color for high contrast */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Enhanced shadow for readability */
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.5em;
+            color: #ffffff;
+            background-color: hsl(300, 100%, 50%);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0px 4px 8px rgba(0, 123, 255, 0.3);
+        }
+
+        button:hover {
+            background-color:rgba(0, 86, 179, 0.5);
+            box-shadow: 0px 6px 12px rgba(0, 86, 179, 0.5);
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>NexTech: Round 1</h1>
+    <p id="jeo"><u>JeoPardy Quiz</u></p>
+    <p>Welcome to Round 1 of NexTech: The Ultimate Electronics Challenge. Get ready to test your knowledge and skills in electronics!</p>
+    <div class="button-container">
+        <button onclick="location.href='rule1.html'">Rules</button>
+    </div>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const jeoText = document.getElementById('jeo');
+        jeoText.style.visibility = 'visible';
+    });
+</script>
+</html>

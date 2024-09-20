@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Round 1- Part 1</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: lavender;
+    color: white;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    text-align: center;
+    max-width: 900px;
+    margin: auto;
+}
+
+header {
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin: 0;
+    font-size: 3em; /* Larger font size for more impact */
+    color: #6a1b4d; /* Slightly adjusted color for better contrast */
+    font-family: 'Arial', sans-serif; /* Choose a clean, modern font */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    letter-spacing: -0.5px; /* Slightly tighter letter spacing for a refined look */
+}
+
+h3 {
+    margin: 20px 0; /* Increased margin for better separation */
+    font-size: 2.5em; /* Slightly larger font size for better hierarchy */
+    color: #4a6a24; /* Adjusted color for a fresher look */
+    font-family: 'Arial', sans-serif; /* Consistent font choice */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow for a softer effect */
+    letter-spacing: -0.3px; /* Slightly tighter letter spacing */
+}
+
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+    grid-gap: 10px;
+    margin-top: 20px;
+}
+
+.category-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #1a1a1a;
+    text-align: center;
+    background: linear-gradient(145deg, #b5754e, #9b5f3e);
+    padding: 10px;
+    border-radius: 12px;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+    grid-column: span 1;
+    grid-row: span 1;
+    box-sizing: border-box;
+}
+
+.cell {
+    background: linear-gradient(145deg, #6f0b63, #4a0052);
+    color: #e0e0e0;
+    font-size: 1.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    position: relative;
+    box-sizing: border-box;
+    padding: 10px;
+    height: 100%;
+    width: 100%;
+}
+
+.cell:hover {
+    background: linear-gradient(145deg, #26104f, #170d3c);
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.cell.revealed {
+    background: #333;
+    color: #666;
+    text-decoration: line-through;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: lavender;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    max-width: 600px;
+    color: black;
+    font-size: 1em;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.options {
+    margin: 20px 0;
+}
+
+.option-button,
+.close-button {
+    padding: 10px 20px;
+    margin: 5px;
+    background: linear-gradient(145deg, #00ff7f, #00cc66);
+    color: #1a1a1a;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.option-button:hover,
+.close-button:hover {
+    background: linear-gradient(145deg, #33ff99, #00cc66);
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.option-button:active,
+.close-button:active {
+    background: linear-gradient(145deg, #00cc66, #00994d);
+    transform: scale(0.98);
+}
+
+.timer {
+    font-size: 1.5em;
+    color: #ff4747;
+    margin-top: 10px;
+}
+
+.result-popup {
+    background-color: #1a1a1a;
+    color: #00ff7f;
+}
+
+.footer {
+    padding: 20px;
+    text-align: center;
+    color: #e0e0e0;
+    border-top: 2px solid #00ff7f;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.round-button {
+    padding: 10px 20px;
+    background: linear-gradient(145deg, #00ff7f, #00cc66);
+    color: #1a1a1a;
+    text-decoration: none;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.round-button:hover {
+    background: linear-gradient(145deg, #33ff99, #00cc66);
+}
+
+.round-button:active {
+    background: linear-gradient(145deg, #00cc66, #00994d);
+}
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h2>NexTech: The Ultimate Electronics Challenge!</h2>
+            <h3>Round 1- Part 1</h3>
+        </header>
+
+        <div id="grid" class="grid"></div>
+
+        <div id="question-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <h2 id="question-title">Question</h2>
+                <p id="question-text"></p>
+                <div id="options" class="options"></div>
+                <div id="timer" class="timer"></div>
+                <button id="close-question" class="close-button">Close</button>
+            </div>
+        </div>
+
+        <div id="result-popup" class="modal result-popup" style="display: none;">
+            <div class="modal-content">
+                <h2 id="result-message"></h2>
+                <button id="next" class="close-button">Next</button>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <a href="rule1_2.html" class="round-button">Part 2</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const categories = ["Basic Electronics", "Current Affairs", "Programming", "Technology", "General Science", "General knowledge"];
+        const clues = [
+
+            [
+                { value: "Which component stores electrical energy in an electric field?", revealed: false, options: ["Resistor", "Capacitor", "Inductor", "Transistor"], correct: 1, points: 2 },
+                { value: "India’s first 3D-printed post office was inaugurated in which city?", revealed: false, options: ["Chennai", "Bengaluru", "Hyderabad", "Pune"], correct: 1, points: 2 },
+                { value: "Which language is known as the \"language of the web\"?", revealed: false, options: ["Python", "Java", "JavaScript", "C++"], correct: 2, points: 2 },
+                { value: "Which technology is associated with creating decentralized digital ledgers?", revealed: false, options: ["AI", "IoT", "Blockchain", "Cloud Computing"], correct: 2, points: 2 },
+                { value: "What is the primary purpose of a firewall in network security?", revealed: false, options: ["Virus scanning", "Data encryption", "Access control", "Device authentication"], correct: 2, points: 2 },
+                { value: "Who wrote the play \"Romeo and Juliet\"?", revealed: false, options: ["Charles Dickens", "William Shakespeare", "Jane Austen", "Mark Twain"], correct: 1, points: 2 }
+            ],
+
+            [
+                { value: "What is the primary use of a Zener diode?", revealed: false, options: ["To amplify signals", "To convert AC to DC", "To regulate voltage", "To store charge"], correct: 2, points: 4 },
+                { value: "Which tech giant has developed an AI-powered coding assistant named ‘Studio Bot’?", revealed: false, options: ["Microsoft", "Google", "Intel", "Apple"], correct: 1, points: 4 },
+                { value: "Which of the following is not a valid variable name in Python?", revealed: false, options: ["var_1", "1_var", "_var", "var1"], correct: 1, points: 4 },
+                { value: "Which consensus algorithm does the Ethereum blockchain use after its transition to Ethereum 2.0?", revealed: false, options: ["Proof of Work (PoW)", "Proof of Stake (PoS)", "Delegated Proof of Stake (DPoS)", "Proof of Authority (PoA)"], correct: 1, points: 4 },
+                { value: "What is the second law of thermodynamics?", revealed: false, options: ["Energy cannot be created or destroyed", "The entropy of an isolated system always increases", "For every action, there is an equal and opposite reaction", "F = ma"], correct: 1, points: 4 },
+                { value: "Who was the first Indian in independent India to have won a medal in an individual Olympic event?", revealed: false, options: ["Dhyanchand", "K D Jadhav", "Prithipal Singh", "Harishchandra Birajdar"], correct: 1, points: 4 }
+            ],
+
+            [
+                { value: "What is the difference between an NPN and a PNP transistor in terms of current flow?", revealed: false, options: ["NPN has electron flow from collector to emitter, PNP has hole flow from emitter to collector", "NPN has electron flow from emitter to collector, PNP has hole flow from collector to emitter", "NPN has hole flow from collector to emitter, PNP has electron flow from emitter to collector", "NPN has hole flow from emitter to collector, PNP has electron flow from collector to emitter"], correct: 0, points: 6 },
+                { value: "Project Kuiper to provide fast, affordable broadband internet service belongs to which company?", revealed: false, options: ["SpaceX", "Amazon", "BlueOrigin", "Google"], correct: 1, points: 6 },
+                { value: "In Java, which keyword is used to inherit a class?", revealed: false, options: ["inherits", "extends", "implements", "super"], correct: 1, points: 6 },
+                { value: "What is the primary advantage of quantum computing over classical computing?", revealed: false, options: ["Lower power consumption", "Faster processing of classical algorithms", "Ability to solve certain problems exponentially faster", "Greater storage capacity"], correct: 2, points: 6 },
+                { value: "What is the process of copying files from a remote server to a local computer called?", revealed: false, options: ["Downloading", "Uploading", "Transferring", "Syncing"], correct: 0, points: 6 },
+                { value: "Garampani sanctuary is located at", revealed: false, options: ["Junagarh, Gujarat", "Diphu, Assam", "Kohima, Nagaland", "Silvassa, Dadra and Nagar Haveli"], correct: 1, points: 6 }
+            ],
+
+            [
+                { value: "How does a transformer work, and what is the formula relating the primary and secondary voltages and turns ratio?", revealed: false, options: ["By electromagnetic induction; Vp/Vs = Np/Ns", "By electrostatic induction; Vp/Vs = Ns/Np", "By resistive coupling; Vp/Vs = Np/Ns", "By capacitive coupling; Vp/Vs = Ns/Np"], correct: 0, points: 8 },
+                { value: "What was the primary objective of the Artemis program initiated by NASA?", revealed: false, options: ["To send humans to Mars", "To establish a sustainable presence on the Moon", "To explore the outer planets", "To build a space station in orbit"], correct: 1, points: 8 },
+                { value: "What is the time complexity of the binary search algorithm?", revealed: false, options: ["O(n)", "O(n log n)", "O(log n)", "O(1)"], correct: 2, points: 8 },
+                { value: "What does the acronym CRUD stand for in database operations?", revealed: false, options: ["Create, Read, Update, Delete", "Create, Retrieve, Update, Delete", "Create, Read, Upgrade, Delete", "Create, Replace, Update, Delete"], correct: 0, points: 8 },
+                { value: "What is the process of converting computer code into machine-readable instructions called?", revealed: false, options: ["Compilation", "interpretation", " Execution", "Debugging"], correct: 0, points: 8 },
+                { value: "Which country will host the 2026 Asian Games?", revealed: false, options: ["China", "Japan", "South Korea", "Thailand"], correct: 2, points: 8 }
+            ],
+            [
+                { value: "A rectifier has ___ directional flow of charge?", revealed: false, options: ["Uni", "Bi", "Multi", "Zero"], correct: 0, points: 10 },
+                { value: "The term “Barracuda” that was recently in news denotes __:", revealed: false, options: ["High-speed underwater drone", "Advanced cybersecurity software", "Eco-friendly urban transportation project", "Solar-electric boat"], correct: 3, points: 10 },
+                { value: "What is the primary difference between deep learning and traditional machine learning?", revealed: false, options: ["Deep learning models require less data", "Traditional machine learning models are always more accurate", "Deep learning models automatically extract features", "Traditional machine learning models use neural networks"], correct: 2, points: 10 },
+                { value: "Which type of AI is capable of understanding, learning, and applying knowledge across multiple domains?", revealed: false, options: ["Narrow AI", "General AI", "Supervised AI", "Unsupervised AI"], correct: 1, points: 10 },
+                { value: "What is the term for a malicious software that spreads from one computer to another without user intervention?", revealed: false, options: ["Virus", "Trojan horse", "Worm", "Spyware"], correct: 2, points: 10 },
+                { value: "Which historical document, signed in 1215, laid the foundation for modern constitutional law and limited the powers of the English monarchy?", revealed: false, options: ["Magna Carta", " Bill of Rights", " Habeas Corpus Act", " Petition of Right"], correct: 0, points: 10 }
+            ],
+            [
+                { value: "A vacuum tube has the capacity to _____?", revealed: false, options: ["Rectify", "Amplify", "Modify", "Both A and B"], correct: 3, points: 12 },
+                { value: "What is AMRIT technology, that was recently making news, related to?", revealed: false, options: ["Generate renewable energy sources", "Improve internet connectivity in rural areas", "Enhance agricultural crop yields", "Remove arsenic and metal ions from water"], correct: 3, points: 12 },
+                { value: "Which of the following best describes polymorphism in object-oriented programming?", revealed: false, options: ["A class with multiple constructors", "A method that can take multiple forms", "The ability of different objects to respond to the same method call", "Inheritance of methods from multiple classes"], correct: 2, points: 12 },
+                { value: "Which of the following describes the difference between supervised and unsupervised learning?", revealed: false, options: ["Supervised learning uses labeled data; unsupervised learning does not", "Supervised learning requires large datasets; unsupervised learning does not", "Supervised learning models are simpler; unsupervised learning models are complex", "Supervised learning is used for clustering; unsupervised learning is used for classification"], correct: 0, points: 12 },
+                { value: "Which particle is responsible for holding the nucleus of an atom together?", revealed: false, options: ["Electron", "Proton", "Neutron", "Gluon"], correct: 3, points: 12 },
+                { value: "‘Queensberry rules’ is a code of rules that directly influences which of the following sports?", revealed: false, options: ["Billiards", "Boxing", "Tennis", "Polo"], correct: 1, points: 12 }
+            ]
+
+        ];
+
+
+        let timerInterval;
+        let currentCell;
+
+        function createCategoryTitles() {
+            const grid = document.getElementById("grid");
+            categories.forEach(category => {
+                const title = document.createElement("div");
+                title.className = "category-title";
+                title.innerText = category;
+                grid.appendChild(title);
+            });
+        }
+
+        function createGrid() {
+            const grid = document.getElementById("grid");
+            clues.forEach((row, rowIndex) => {
+                row.forEach((clue, colIndex) => {
+                    const cell = document.createElement("div");
+                    cell.className = "cell";
+                    cell.innerText = clue.points;
+                    cell.onclick = () => showQuestion(rowIndex, colIndex);
+                    grid.appendChild(cell);
+                });
+            });
+        }
+
+        function showQuestion(rowIndex, colIndex) {
+            const clue = clues[rowIndex][colIndex];
+            if (clue.revealed) return;
+
+            currentCell = document.querySelectorAll(".cell")[rowIndex * 6 + colIndex];
+
+            document.getElementById("question-title").innerText = "Question for " + clue.points + " Points";
+            document.getElementById("question-text").innerText = clue.value;
+
+            const optionsContainer = document.getElementById("options");
+            optionsContainer.innerHTML = "";
+            clue.options.forEach((option, index) => {
+                const button = document.createElement("button");
+                button.className = "option-button";
+                button.innerText = option;
+                button.onclick = () => checkAnswer(rowIndex, colIndex, index);
+                optionsContainer.appendChild(button);
+            });
+
+            startTimer();
+            document.getElementById("question-modal").style.display = "flex";
+            document.getElementById("close-question").style.display = "block";
+        }
+
+        function checkAnswer(rowIndex, colIndex, selected) {
+            clearInterval(timerInterval);
+
+            const clue = clues[rowIndex][colIndex];
+            const resultMessage = document.getElementById("result-message");
+
+            if (selected === clue.correct) {
+                resultMessage.innerText = "Correct!";
+            } else {
+                resultMessage.innerText = "Incorrect!";
+            }
+
+            clue.revealed = true;
+            currentCell.classList.add("revealed");
+            document.getElementById("question-modal").style.display = "none";
+            document.getElementById("result-popup").style.display = "flex";
+        }
+
+        function startTimer() {
+            let timeLeft = 45;
+            const timerElement = document.getElementById("timer");
+            timerElement.innerText = "Time left: " + timeLeft + "s";
+
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerElement.innerText = "Time left: " + timeLeft + "s";
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timerElement.innerText = "Time's up!";
+                    document.getElementById("close-question").style.display = "block";
+                }
+            }, 1000);
+        }
+
+        document.getElementById("close-question").onclick = function () {
+            document.getElementById("question-modal").style.display = "none";
+            clearInterval(timerInterval);
+
+            if (currentCell) {
+                currentCell.classList.add("revealed");
+            }
+        };
+
+        document.getElementById("next").onclick = function () {
+            document.getElementById("result-popup").style.display = "none";
+        };
+
+        createCategoryTitles();
+        createGrid();
+    </script>
+</body>
+
+</html>

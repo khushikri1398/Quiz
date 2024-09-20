@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rule1-part2 - Rules and Guidelines</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #e0e0e0; /* Light grey background color for the entire page */
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* Allow body to grow based on its content */
+        }
+        .container {
+            max-width: 800px;
+            margin-top: 20px; /* Margin from top */
+            background: #fff; /* White background color for the container */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 1.5em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            text-decoration: underline;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+        .rules ul, .strategy ul {
+            padding-left: 20px;
+        }
+        .button-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            color: #fff;
+            background-color: #ff3700;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #b3009b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><u>Rules and Guidelines</u></h1>
+        <h2>Gameplay for part 2</h2>
+        
+        <div class="rules">
+            <h3>1. Question Selection:</h3>
+            <ul>
+                <li>A set of questions will be displayed on the screen, categorized by different topics, and each topic consists of 6 questions. Each question has a point value, and the higher the points, the tougher the challenges..</li>
+                <li>Participants will choose a topic and then select a question based on its point value.</li>
+            </ul>
+
+            <h3>2. Answering Questions:</h3>
+            <ul>
+                <li>The team answering the question correctly will earn the points assigned to that question and will have the opportunity to select and answer the next question.</li>
+                <li>If the team answers incorrectly, they will incur a negative marking as specified.</li>
+                <li>
+                    The question will be visible on the screen for 45 seconds. 
+                </li>
+                <li>
+                    Chits will be distributed to determine who starts the game and selects a question. A team member from each team will come up to pick a chit, which will contain either the number 0 or 1. If they draw the number 1, they will have the opportunity to select the question.
+                </li>
+                <li>
+                    You'll choose a question based on its point value. If you answer correctly, you’ll earn those points and will have the opportunity to select and answer the next question.
+                    When questions are displayed on the screen,at that time any team can answer the question. The team who presses the buzzer first will have the chance to answer the question.
+                    </li>
+                <li>
+                    If the team will give the right answer then he will get the opportunity to select the next question also.
+                </li>
+                <li>
+                    Otherwise, the chance to choose the question will go back to the team that selected it before.
+                </li>
+                <li>
+                    If you answer incorrectly or if the team presses the buzzer first but doesn't provide an answer, the team will lose points according to our negative marking scheme.
+                </li>
+            </ul>
+        </div>
+        
+        <h2>Points and Negative Marking</h2>
+        
+        <table>
+            <tr>
+                <th>QUESTIONS</th>
+                <th>MARKS</th>
+                <th>NEGATIVE MARKING</th>
+            </tr>
+            <tr>
+                <td>QUESTION 1</td>
+                <td>04</td>
+                <td>-02</td>
+            </tr>
+            <tr>
+                <td>QUESTION 2</td>
+                <td>08</td>
+                <td>-04</td>
+            </tr>
+            <tr>
+                <td>QUESTION 3</td>
+                <td>12</td>
+                <td>-06</td>
+            </tr>
+            <tr>
+                <td>QUESTION 4</td>
+                <td>16</td>
+                <td>-08</td>
+            </tr>
+            <tr>
+                <td>QUESTION 5</td>
+                <td>20</td>
+                <td>-10</td>
+            </tr>
+            <tr>
+                <td>QUESTION 6</td>
+                <td>24</td>
+                <td>-12</td>
+            </tr>
+        </table>
+        
+        <h2>Scoring</h2>
+        <p>Each correctly answered question will add the specified points to the team's total score. Incorrect answers will result in points being deducted as per the negative marking scheme.</p>
+        
+        <h2>Strategy</h2>
+        <div class="strategy">
+            <ul>
+                <li>Choose questions wisely based on your team's confidence in the topic.</li>
+                <li>Manage your risk by balancing potential points with the possibility of negative marking.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="button-container">
+        <button onclick="location.href='part2.html'">Start Part 2</button>
+    </div>
+</body>
+</html>
